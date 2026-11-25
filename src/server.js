@@ -1,6 +1,6 @@
 import http from 'node:http';
 import { fileURLToPath } from 'node:url';
-import { greet } from './greeting.js';
+import { greet, farewell } from './greeting.js';
 
 function send(res, status, body, type = 'application/json') {
   res.writeHead(status, { 'content-type': `${type}; charset=utf-8` });
@@ -16,6 +16,7 @@ export function handle(req, res) {
     case '/healthz': return send(res, 200, 'ok', 'text/plain');
     case '/': return send(res, 200, { service: 'utopic-pilot-service', message: 'Hello from the Utopic pilot service' });
     case '/greet': return send(res, 200, { greeting: greet(url.searchParams.get('name')) });
+    case '/farewell': return send(res, 200, { farewell: farewell(url.searchParams.get('name')) });
     default: return send(res, 404, { error: 'not_found' });
   }
 }

@@ -3,3 +3,9 @@ export function greet(name) {
   const who = typeof name === 'string' ? name.trim().slice(0, 50) : '';
   return who === '' ? 'Hello, world!' : `Hello, ${who}!`;
 }
+
+/** The farewell for GET /farewell?name=. Pure; trims and caps the name like greet(). */
+export function farewell(name) {
+  const who = typeof name === 'string' ? name.trim().slice(0, 50) : '';
+  return who === '' ? 'Goodbye, world!' : `Goodbye, ${who}!`;
+}
