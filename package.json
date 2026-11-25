@@ -1,0 +1,10 @@
+{
+  "name": "utopic-pilot-service",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Smallest deployable service inside the Utopic workload contract: plain JavaScript on Node, no dependencies. Used for the pilot's first live deploy.",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": { "node": ">=22.18" },
+  "scripts": { "start": "node .", "test": "node --test test/*.test.js" }
+}
