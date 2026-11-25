@@ -51,3 +51,16 @@ test('node . listens on PORT and exits 0 on SIGTERM', async () => {
   const [code, signal] = await exited;
   assert.equal(code, 0, `exit code ${code}, signal ${signal}`);
 });
+
+test('a request path that is not a valid URL is a 400, not a crash', async () => {
+  const { start } = await import('../src/server.js');
+  const net = await import('node:net');
+  const server = await start({ port: 0, host: '127.0.0.1' });
+  const { port } = server.address();
+  const reply = await new Promise((resolve, reject) => {
+    const s = net.connect(port, '127.0.0.1', () => s.write('GET // HTTP/1.1\r\nHost: x\r\nConnection: close\r\n\r\n'));
+    let d = ''; s.on('data', (c) => { d += c; }); s.on('end', () => resolve(d)); s.on('error', reject);
+  });
+  server.close();
+  assert.match(reply, /^HTTP\/1\.1 400/);
+});

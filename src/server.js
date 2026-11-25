@@ -9,7 +9,8 @@ function send(res, status, body, type = 'application/json') {
 
 /** The request handler. Routes: GET /healthz, GET /, GET /greet?name= */
 export function handle(req, res) {
-  const url = new URL(req.url ?? '/', 'http://localhost');
+  let url;
+  try { url = new URL(req.url ?? '/', 'http://localhost'); } catch { return send(res, 400, { error: 'bad_request' }); } // e.g. a path of "//"
   if (req.method !== 'GET' && req.method !== 'HEAD') return send(res, 405, { error: 'method_not_allowed' });
   switch (url.pathname) {
     case '/healthz': return send(res, 200, 'ok', 'text/plain');
